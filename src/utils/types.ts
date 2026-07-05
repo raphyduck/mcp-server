@@ -25,6 +25,8 @@ export interface BitwardenItem {
   notes?: string;
   type?: number;
   folderId?: string;
+  organizationId?: string;
+  collectionIds?: readonly string[];
   login?: {
     username?: string;
     password?: string;

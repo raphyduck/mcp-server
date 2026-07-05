@@ -178,8 +178,18 @@ export const handleGenerate = withValidation(
 export const handleCreateItem = withValidation(
   createItemSchema,
   async (validatedArgs) => {
-    const { name, type, notes, login, card, identity, secureNote, folderId } =
-      validatedArgs;
+    const {
+      name,
+      type,
+      notes,
+      login,
+      card,
+      identity,
+      secureNote,
+      folderId,
+      organizationId,
+      collectionIds,
+    } = validatedArgs;
 
     // Creating an item with the specified type
     const item: BitwardenItem = {
@@ -256,6 +266,13 @@ export const handleCreateItem = withValidation(
       item.identity = identityData;
     }
 
+    if (organizationId !== undefined) {
+      item.organizationId = organizationId;
+    }
+    if (collectionIds !== undefined) {
+      item.collectionIds = collectionIds;
+    }
+
     const itemJson = JSON.stringify(item);
     const encodedItem = Buffer.from(itemJson).toString('base64');
     const response = await executeCliCommand('create', ['item', encodedItem]);
@@ -279,8 +296,18 @@ export const handleCreateFolder = withValidation(
 export const handleEditItem = withValidation(
   editItemSchema,
   async (validatedArgs) => {
-    const { id, name, notes, login, card, identity, secureNote, folderId } =
-      validatedArgs;
+    const {
+      id,
+      name,
+      notes,
+      login,
+      card,
+      identity,
+      secureNote,
+      folderId,
+      organizationId,
+      collectionIds,
+    } = validatedArgs;
 
     // First, get the existing item
     const getResponse = await executeCliCommand('get', ['item', id]);
@@ -395,6 +422,36 @@ export const handleEditItem = withValidation(
         id,
         encodedUpdates,
       ]);
+
+      // `bw edit item` updates fields but cannot move an item into an
+      // organization or change its collections. When org/collection placement
+      // is requested, delegate to the correct CLI operation: `move` for an item
+      // still in the personal vault, or `edit item-collections` for an item
+      // already owned by the organization.
+      if (organizationId !== undefined && collectionIds !== undefined) {
+        if (response.errorOutput) {
+          return toMcpFormat(response);
+        }
+        const encodedCollections = Buffer.from(
+          JSON.stringify(collectionIds),
+          'utf8',
+        ).toString('base64');
+        const placementResponse = existingItem.organizationId
+          ? await executeCliCommand('edit', [
+              'item-collections',
+              id,
+              encodedCollections,
+              '--organizationid',
+              organizationId,
+            ])
+          : await executeCliCommand('move', [
+              id,
+              organizationId,
+              encodedCollections,
+            ]);
+        return toMcpFormat(placementResponse);
+      }
+
       return toMcpFormat(response);
     } catch (error) {
       const errorResponse: CliResponse = {

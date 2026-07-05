@@ -273,7 +273,26 @@ export const createItemSchema = z
     secureNote: secureNoteSchema.optional(),
     // Folder ID to assign the item to
     folderId: z.string().optional(),
+    // Organization ID to create the item directly in a shared organization
+    organizationId: z.string().optional(),
+    // Collection IDs (within the organization) the item should belong to
+    collectionIds: z
+      .array(z.string().min(1, 'Collection ID cannot be empty'))
+      .optional(),
   })
+  .refine(
+    (data) => {
+      // organizationId and collectionIds must be provided together
+      const hasOrg = data.organizationId !== undefined;
+      const hasCollections =
+        data.collectionIds !== undefined && data.collectionIds.length > 0;
+      return hasOrg === hasCollections;
+    },
+    {
+      message:
+        'organizationId and collectionIds must be provided together to create an item in a shared collection',
+    },
+  )
   .refine(
     (data) => {
       // Validate that the appropriate type-specific data is provided
@@ -384,24 +403,43 @@ export const editSecureNoteSchema = z.object({
 });
 
 // Schema for validating 'edit item' command parameters
-export const editItemSchema = z.object({
-  // ID of the item to edit
-  id: z.string().min(1, 'ID is required'),
-  // New name for the item
-  name: z.string().optional(),
-  // New notes for the item
-  notes: z.string().optional(),
-  // Updated login information
-  login: editLoginSchema.optional(),
-  // Updated card information
-  card: editCardSchema.optional(),
-  // Updated identity information
-  identity: editIdentitySchema.optional(),
-  // Updated secure note information
-  secureNote: editSecureNoteSchema.optional(),
-  // New folder ID to assign the item to
-  folderId: z.string().optional(),
-});
+export const editItemSchema = z
+  .object({
+    // ID of the item to edit
+    id: z.string().min(1, 'ID is required'),
+    // New name for the item
+    name: z.string().optional(),
+    // New notes for the item
+    notes: z.string().optional(),
+    // Updated login information
+    login: editLoginSchema.optional(),
+    // Updated card information
+    card: editCardSchema.optional(),
+    // Updated identity information
+    identity: editIdentitySchema.optional(),
+    // Updated secure note information
+    secureNote: editSecureNoteSchema.optional(),
+    // New folder ID to assign the item to
+    folderId: z.string().optional(),
+    // Organization ID to move the item into a shared organization (with collectionIds)
+    organizationId: z.string().optional(),
+    // Collection IDs (within the organization) the item should belong to
+    collectionIds: z
+      .array(z.string().min(1, 'Collection ID cannot be empty'))
+      .optional(),
+  })
+  .refine(
+    (data) => {
+      const hasOrg = data.organizationId !== undefined;
+      const hasCollections =
+        data.collectionIds !== undefined && data.collectionIds.length > 0;
+      return hasOrg === hasCollections;
+    },
+    {
+      message:
+        'organizationId and collectionIds must be provided together to place an item in a shared collection',
+    },
+  );
 
 // Schema for validating 'edit folder' command parameters
 export const editFolderSchema = z.object({

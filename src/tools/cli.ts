@@ -373,6 +373,19 @@ export const createItemTool: Tool = {
         type: 'string',
         description: 'Folder ID to assign the item to',
       },
+      organizationId: {
+        type: 'string',
+        description:
+          'Organization ID for a shared organization (must be provided together with collectionIds)',
+      },
+      collectionIds: {
+        type: 'array',
+        description:
+          'Collection IDs within the organization the item should belong to (must be provided together with organizationId)',
+        items: {
+          type: 'string',
+        },
+      },
     },
     required: ['name', 'type'],
   },
@@ -572,6 +585,19 @@ export const editItemTool: Tool = {
       folderId: {
         type: 'string',
         description: 'New folder ID to assign the item to',
+      },
+      organizationId: {
+        type: 'string',
+        description:
+          'Organization ID for a shared organization (must be provided together with collectionIds)',
+      },
+      collectionIds: {
+        type: 'array',
+        description:
+          'Collection IDs within the organization the item should belong to (must be provided together with organizationId)',
+        items: {
+          type: 'string',
+        },
       },
     },
     required: ['id'],
