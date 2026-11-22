@@ -4,9 +4,19 @@
 
 import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 
+// Each tool declares in `_meta` the connector (family of rights) it belongs to,
+// "hobbitton.at/connecteur" (null: served but kept closed), and whether it acts,
+// "hobbitton.at/agit" (writes, sends, deletes or changes something). The
+// platform's scheduler builds its access table from what `tools/list` publishes;
+// tests/tool-declarations.spec.ts fails on a published tool that declares nothing.
+
 // Organization Collections Tools
 export const listOrgCollectionsTool: Tool = {
   name: 'list_org_collections',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all collections',
   inputSchema: {
     type: 'object',
@@ -17,6 +27,10 @@ export const listOrgCollectionsTool: Tool = {
 
 export const getOrgCollectionTool: Tool = {
   name: 'get_org_collection',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Retrieve a collection',
   inputSchema: {
     type: 'object',
@@ -32,6 +46,10 @@ export const getOrgCollectionTool: Tool = {
 
 export const updateOrgCollectionTool: Tool = {
   name: 'update_org_collection',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Update a collection',
   inputSchema: {
     type: 'object',
@@ -84,6 +102,10 @@ export const updateOrgCollectionTool: Tool = {
 
 export const deleteOrgCollectionTool: Tool = {
   name: 'delete_org_collection',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Delete a collection',
   inputSchema: {
     type: 'object',
@@ -100,6 +122,10 @@ export const deleteOrgCollectionTool: Tool = {
 // Organization Members Tools
 export const listOrgMembersTool: Tool = {
   name: 'list_org_members',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all members',
   inputSchema: {
     type: 'object',
@@ -110,6 +136,10 @@ export const listOrgMembersTool: Tool = {
 
 export const getOrgMemberTool: Tool = {
   name: 'get_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Retrieve a member',
   inputSchema: {
     type: 'object',
@@ -125,6 +155,10 @@ export const getOrgMemberTool: Tool = {
 
 export const inviteOrgMemberTool: Tool = {
   name: 'invite_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a member',
   inputSchema: {
     type: 'object',
@@ -205,6 +239,10 @@ export const inviteOrgMemberTool: Tool = {
 
 export const updateOrgMemberTool: Tool = {
   name: 'update_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Update a member',
   inputSchema: {
     type: 'object',
@@ -284,6 +322,10 @@ export const updateOrgMemberTool: Tool = {
 
 export const removeOrgMemberTool: Tool = {
   name: 'remove_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Remove a member',
   inputSchema: {
     type: 'object',
@@ -300,6 +342,10 @@ export const removeOrgMemberTool: Tool = {
 // Organization Groups Tools
 export const listOrgGroupsTool: Tool = {
   name: 'list_org_groups',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all groups',
   inputSchema: {
     type: 'object',
@@ -310,6 +356,10 @@ export const listOrgGroupsTool: Tool = {
 
 export const getOrgGroupTool: Tool = {
   name: 'get_org_group',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Retrieve a group',
   inputSchema: {
     type: 'object',
@@ -326,6 +376,10 @@ export const getOrgGroupTool: Tool = {
 
 export const createOrgGroupTool: Tool = {
   name: 'create_org_group',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a group',
   inputSchema: {
     type: 'object',
@@ -373,6 +427,10 @@ export const createOrgGroupTool: Tool = {
 
 export const updateOrgGroupTool: Tool = {
   name: 'update_org_group',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Update a group',
   inputSchema: {
     type: 'object',
@@ -422,6 +480,10 @@ export const updateOrgGroupTool: Tool = {
 
 export const deleteOrgGroupTool: Tool = {
   name: 'delete_org_group',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Delete a group',
   inputSchema: {
     type: 'object',
@@ -437,6 +499,10 @@ export const deleteOrgGroupTool: Tool = {
 
 export const getOrgMemberGroupsTool: Tool = {
   name: 'get_org_member_groups',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: "Retrieve a member's group ids",
   inputSchema: {
     type: 'object',
@@ -453,6 +519,10 @@ export const getOrgMemberGroupsTool: Tool = {
 
 export const getOrgGroupMembersTool: Tool = {
   name: 'get_org_group_members',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: "Retrieve a group's member ids",
   inputSchema: {
     type: 'object',
@@ -469,6 +539,10 @@ export const getOrgGroupMembersTool: Tool = {
 
 export const updateOrgMemberGroupsTool: Tool = {
   name: 'update_org_member_groups',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: "Update a member's groups",
   inputSchema: {
     type: 'object',
@@ -493,6 +567,10 @@ export const updateOrgMemberGroupsTool: Tool = {
 
 export const reinviteOrgMemberTool: Tool = {
   name: 'reinvite_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Re-invite a member',
   inputSchema: {
     type: 'object',
@@ -509,6 +587,10 @@ export const reinviteOrgMemberTool: Tool = {
 
 export const revokeOrgMemberTool: Tool = {
   name: 'revoke_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: "Revoke a member's access to an organization",
   inputSchema: {
     type: 'object',
@@ -525,6 +607,10 @@ export const revokeOrgMemberTool: Tool = {
 
 export const restoreOrgMemberTool: Tool = {
   name: 'restore_org_member',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Restore a previously revoked member',
   inputSchema: {
     type: 'object',
@@ -541,6 +627,10 @@ export const restoreOrgMemberTool: Tool = {
 
 export const updateOrgGroupMembersTool: Tool = {
   name: 'update_org_group_members',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: "Update a group's members",
   inputSchema: {
     type: 'object',
@@ -564,6 +654,10 @@ export const updateOrgGroupMembersTool: Tool = {
 // Organization Policies Tools
 export const listOrgPoliciesTool: Tool = {
   name: 'list_org_policies',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all policies',
   inputSchema: {
     type: 'object',
@@ -574,6 +668,10 @@ export const listOrgPoliciesTool: Tool = {
 
 export const getOrgPolicyTool: Tool = {
   name: 'get_org_policy',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Retrieve a policy',
   inputSchema: {
     type: 'object',
@@ -592,6 +690,10 @@ export const getOrgPolicyTool: Tool = {
 
 export const updateOrgPolicyTool: Tool = {
   name: 'update_org_policy',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Update a policy',
   inputSchema: {
     type: 'object',
@@ -619,6 +721,10 @@ export const updateOrgPolicyTool: Tool = {
 // Organization Events Tools
 export const getOrgEventsTool: Tool = {
   name: 'get_org_events',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all events',
   inputSchema: {
     type: 'object',
@@ -663,6 +769,10 @@ export const getOrgEventsTool: Tool = {
 // Organization Billing Tools
 export const getOrgSubscriptionTool: Tool = {
   name: 'get_org_subscription',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Retrieve the subscription details for the current organization',
   inputSchema: {
     type: 'object',
@@ -673,6 +783,10 @@ export const getOrgSubscriptionTool: Tool = {
 
 export const updateOrgSubscriptionTool: Tool = {
   name: 'update_org_subscription',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description:
     "Update the organization's current subscription for Password Manager and/or Secrets Manager",
   inputSchema: {
@@ -725,6 +839,10 @@ export const updateOrgSubscriptionTool: Tool = {
 
 export const importOrgUsersAndGroupsTool: Tool = {
   name: 'import_org_users_and_groups',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Import members and groups from an external system',
   inputSchema: {
     type: 'object',
