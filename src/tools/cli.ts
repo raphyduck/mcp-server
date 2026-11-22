@@ -4,8 +4,18 @@
 
 import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 
+// Each tool declares in `_meta` the connector (family of rights) it belongs to,
+// "hobbitton.at/connecteur" (null: served but kept closed), and whether it acts,
+// "hobbitton.at/agit" (writes, sends, deletes or changes something). The
+// platform's scheduler builds its access table from what `tools/list` publishes;
+// tests/tool-declarations.spec.ts fails on a published tool that declares nothing.
+
 export const lockTool: Tool = {
   name: 'lock',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Lock the vault',
   inputSchema: {
     type: 'object',
@@ -15,6 +25,10 @@ export const lockTool: Tool = {
 
 export const unlockTool: Tool = {
   name: 'unlock',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description:
     'Unlock the Bitwarden vault. Takes no parameters. Prompts the user for their master password through a native OS dialog; the password is never exposed to the MCP protocol or the LLM. Not supported in headless or non-interactive environments — run "bw unlock --raw" manually and set BW_SESSION in that case.',
   inputSchema: {
@@ -25,6 +39,10 @@ export const unlockTool: Tool = {
 
 export const syncTool: Tool = {
   name: 'sync',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Sync vault data from the Bitwarden server',
   inputSchema: {
     type: 'object',
@@ -34,6 +52,10 @@ export const syncTool: Tool = {
 
 export const statusTool: Tool = {
   name: 'status',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Check the status of the Bitwarden CLI',
   inputSchema: {
     type: 'object',
@@ -43,6 +65,10 @@ export const statusTool: Tool = {
 
 export const listTool: Tool = {
   name: 'list',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List items from your vault or organization',
   inputSchema: {
     type: 'object',
@@ -95,6 +121,10 @@ export const listTool: Tool = {
 
 export const getTool: Tool = {
   name: 'get',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Get a specific item from your vault or organization',
   inputSchema: {
     type: 'object',
@@ -143,6 +173,10 @@ export const getTool: Tool = {
 
 export const generateTool: Tool = {
   name: 'generate',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Generate a secure password or passphrase',
   inputSchema: {
     type: 'object',
@@ -191,6 +225,10 @@ export const generateTool: Tool = {
 
 export const createItemTool: Tool = {
   name: 'create_item',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description:
     'Create a new item (login, secure note, card, or identity) in your vault',
   inputSchema: {
@@ -393,6 +431,10 @@ export const createItemTool: Tool = {
 
 export const createFolderTool: Tool = {
   name: 'create_folder',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a new folder in your vault',
   inputSchema: {
     type: 'object',
@@ -408,6 +450,10 @@ export const createFolderTool: Tool = {
 
 export const editItemTool: Tool = {
   name: 'edit_item',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description:
     'Edit an existing item (login, secure note, card, or identity) in your vault',
   inputSchema: {
@@ -606,6 +652,10 @@ export const editItemTool: Tool = {
 
 export const editFolderTool: Tool = {
   name: 'edit_folder',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Edit an existing folder in your vault',
   inputSchema: {
     type: 'object',
@@ -625,6 +675,10 @@ export const editFolderTool: Tool = {
 
 export const deleteTool: Tool = {
   name: 'delete',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Delete an item from your vault',
   inputSchema: {
     type: 'object',
@@ -649,6 +703,10 @@ export const deleteTool: Tool = {
 
 export const confirmTool: Tool = {
   name: 'confirm',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description:
     'Confirm an invited organization member who has accepted their invitation',
   inputSchema: {
@@ -669,6 +727,10 @@ export const confirmTool: Tool = {
 
 export const createOrgCollectionTool: Tool = {
   name: 'create_org_collection',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a new organization collection',
   inputSchema: {
     type: 'object',
@@ -714,6 +776,10 @@ export const createOrgCollectionTool: Tool = {
 
 export const editOrgCollectionTool: Tool = {
   name: 'edit_org_collection',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Edit an existing organization collection',
   inputSchema: {
     type: 'object',
@@ -763,6 +829,10 @@ export const editOrgCollectionTool: Tool = {
 
 export const editItemCollectionsTool: Tool = {
   name: 'edit_item_collections',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Edit which collections an item belongs to',
   inputSchema: {
     type: 'object',
@@ -789,6 +859,10 @@ export const editItemCollectionsTool: Tool = {
 
 export const moveTool: Tool = {
   name: 'move',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description:
     'Move (share) a vault item to an organization (formerly the share command)',
   inputSchema: {
@@ -817,6 +891,10 @@ export const moveTool: Tool = {
 
 export const deviceApprovalListTool: Tool = {
   name: 'device_approval_list',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all pending device approval requests for an organization',
   inputSchema: {
     type: 'object',
@@ -832,6 +910,10 @@ export const deviceApprovalListTool: Tool = {
 
 export const deviceApprovalApproveTool: Tool = {
   name: 'device_approval_approve',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Approve a pending device authorization request',
   inputSchema: {
     type: 'object',
@@ -851,6 +933,10 @@ export const deviceApprovalApproveTool: Tool = {
 
 export const deviceApprovalApproveAllTool: Tool = {
   name: 'device_approval_approve_all',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Approve all current pending device authorization requests',
   inputSchema: {
     type: 'object',
@@ -866,6 +952,10 @@ export const deviceApprovalApproveAllTool: Tool = {
 
 export const deviceApprovalDenyTool: Tool = {
   name: 'device_approval_deny',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Deny a pending device authorization request',
   inputSchema: {
     type: 'object',
@@ -885,6 +975,10 @@ export const deviceApprovalDenyTool: Tool = {
 
 export const deviceApprovalDenyAllTool: Tool = {
   name: 'device_approval_deny_all',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-organisation',
+    'hobbitton.at/agit': true,
+  },
   description: 'Deny all pending device authorization requests',
   inputSchema: {
     type: 'object',
@@ -900,6 +994,10 @@ export const deviceApprovalDenyAllTool: Tool = {
 
 export const restoreTool: Tool = {
   name: 'restore',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Restore an item from trash',
   inputSchema: {
     type: 'object',
@@ -920,6 +1018,10 @@ export const restoreTool: Tool = {
 
 export const createTextSendTool: Tool = {
   name: 'create_text_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a new Bitwarden Send for securely sharing text',
   inputSchema: {
     type: 'object',
@@ -963,6 +1065,10 @@ export const createTextSendTool: Tool = {
 
 export const createFileSendTool: Tool = {
   name: 'create_file_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Create a new Bitwarden Send for securely sharing a file',
   inputSchema: {
     type: 'object',
@@ -1002,6 +1108,10 @@ export const createFileSendTool: Tool = {
 
 export const listSendTool: Tool = {
   name: 'list_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'List all Bitwarden Sends',
   inputSchema: {
     type: 'object',
@@ -1011,6 +1121,10 @@ export const listSendTool: Tool = {
 
 export const getSendTool: Tool = {
   name: 'get_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden',
+    'hobbitton.at/agit': false,
+  },
   description: 'Get details of a specific Bitwarden Send',
   inputSchema: {
     type: 'object',
@@ -1026,6 +1140,10 @@ export const getSendTool: Tool = {
 
 export const editSendTool: Tool = {
   name: 'edit_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Edit an existing Bitwarden Send',
   inputSchema: {
     type: 'object',
@@ -1069,6 +1187,10 @@ export const editSendTool: Tool = {
 
 export const deleteSendTool: Tool = {
   name: 'delete_send',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Delete a Bitwarden Send',
   inputSchema: {
     type: 'object',
@@ -1084,6 +1206,10 @@ export const deleteSendTool: Tool = {
 
 export const removeSendPasswordTool: Tool = {
   name: 'remove_send_password',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Remove the access password from a Bitwarden Send',
   inputSchema: {
     type: 'object',
@@ -1099,6 +1225,10 @@ export const removeSendPasswordTool: Tool = {
 
 export const createAttachmentTool: Tool = {
   name: 'create_attachment',
+  _meta: {
+    'hobbitton.at/connecteur': 'bitwarden-ecriture',
+    'hobbitton.at/agit': true,
+  },
   description: 'Attach a file to an existing vault item',
   inputSchema: {
     type: 'object',
